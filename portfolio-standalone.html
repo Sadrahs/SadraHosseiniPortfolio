@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sadra Hosseini — Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react">
+    const { useState } = React;
+
+    const navLinks = [
+      { label: 'About', href: '#about' },
+      { label: 'Projects', href: '#projects' },
+      { label: 'Skills', href: '#skills' },
+      { label: 'Experience', href: '#experience' },
+      { label: 'Contact', href: '#contact' },
+    ];
+
+    const projects = [
+      {
+        title: 'MoodSyncher',
+        description: "A full-stack web app that recommends movies based on how you're feeling. React 19 and TypeScript on the frontend, a Node/Express API, and a Python FastAPI service using the OpenAI SDK to generate mood-based recommendations, backed by MongoDB.",
+        tech: ['React 19', 'TypeScript', 'Node.js', 'Express', 'Python', 'FastAPI', 'MongoDB', 'OpenAI SDK'],
+        live: 'https://moodsyncher.netlify.app',
+        github: 'https://github.com/sadrahs',
+        featured: true,
+      },
+      {
+        title: 'Task Manager',
+        description: 'A task management application with a C# and .NET backend, SQL Server for persistence, and Docker for containerized local development and deployment.',
+        tech: ['C#', '.NET', 'SQL Server', 'Docker'],
+        github: 'https://github.com/sadrahs',
+      },
+    ];
+
+    const skillGroups = [
+      { title: 'Languages', items: ['Python', 'Java', 'JavaScript', 'TypeScript', 'C#', 'C/C++', 'SQL'] },
+      { title: 'Frameworks & Libraries', items: ['React', 'Node.js', 'Express', '.NET', 'FastAPI'] },
+      { title: 'Databases', items: ['MongoDB', 'SQL Server', 'MySQL'] },
+      { title: 'Tools & Platforms', items: ['Docker', 'Git', 'Linux', 'Bash'] },
+    ];
+
+    const experience = [
+      {
+        role: 'IT Support Technician',
+        org: 'Mobile Komak, Ahwaz, Iran',
+        period: 'Sep 2023 – Dec 2024',
+        description: 'Resolved technical issues and optimized system performance for clients, and built Python scripts to automate routine troubleshooting tasks.',
+      },
+      {
+        role: 'International Peer Supporter',
+        org: 'Toronto Metropolitan University',
+        period: 'Apr 2024 – Present',
+        description: 'Supported 150+ international students through personalized mentorship and interactive group activities, improving academic and social integration.',
+      },
+      {
+        role: 'President, ISAMET',
+        org: "Iranian Students' Association of TMU",
+        period: 'Jul 2024 – Present',
+        description: 'Led weekly executive meetings and organized 15+ cultural events for 100+ attendees, including Yalda Night.',
+      },
+    ];
+
+    const education = [
+      {
+        role: 'MSc Computer Science',
+        org: 'York University, Lassonde School of Engineering',
+        period: 'In Progress',
+        description: "Project-based Master's program with coursework spanning machine learning, software engineering, and distributed systems.",
+      },
+      {
+        role: 'BSc (Honours) Computer Science, Co-op',
+        org: 'Toronto Metropolitan University',
+        period: "Graduated · Dean's List 2023–2024",
+        description: 'Relevant coursework: Data Structures and Algorithms, Computer Security, Database Systems.',
+      },
+    ];
+
+    function SectionHeading({ number, title }) {
+      return (
+        <div className="flex items-center gap-4">
+          <span className="text-purple-400 font-mono text-lg">{number}.</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-100">{title}</h2>
+          <div className="flex-1 h-px bg-slate-800 ml-4 hidden sm:block"></div>
+        </div>
+      );
+    }
+
+    function ProjectCard({ title, description, tech, live, github, featured }) {
+      return (
+        <div className="group relative bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10">
+          {featured && (
+            <span className="inline-block mb-3 px-3 py-1 text-xs font-semibold bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white">
+              Featured Project
+            </span>
+          )}
+          <h3 className="text-xl font-bold text-slate-100 mb-2 group-hover:text-purple-400 transition-colors">{title}</h3>
+          <p className="text-slate-400 text-sm leading-relaxed mb-4">{description}</p>
+          <div className="flex flex-wrap gap-2 mb-4">
+            {tech.map((t) => (
+              <span key={t} className="px-2.5 py-1 text-xs font-mono bg-slate-800 text-purple-300 rounded-md border border-slate-700">{t}</span>
+            ))}
+          </div>
+          <div className="flex gap-4">
+            {live && (
+              <a href={live} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-slate-300 hover:text-purple-400 transition-colors">
+                <i className="fa-solid fa-arrow-up-right-from-square text-base"></i> Live Demo
+              </a>
+            )}
+            {github && (
+              <a href={github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-slate-300 hover:text-purple-400 transition-colors">
+                <i className="fa-brands fa-github text-base"></i> Code
+              </a>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    function TimelineItem({ role, org, period, description }) {
+      return (
+        <div className="relative pl-6 pb-8 border-l border-slate-800 last:border-transparent last:pb-0">
+          <div className="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
+          <p className="text-xs font-mono text-purple-400 mb-1">{period}</p>
+          <h4 className="text-slate-100 font-semibold">{role}</h4>
+          <p className="text-sm text-slate-500 mb-2">{org}</p>
+          <p className="text-sm text-slate-400 leading-relaxed">{description}</p>
+        </div>
+      );
+    }
+
+    function Portfolio() {
+      const [menuOpen, setMenuOpen] = useState(false);
+
+      const scrollTo = (href) => {
+        const el = document.querySelector(href);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        setMenuOpen(false);
+      };
+
+      return (
+        <div className="min-h-screen bg-slate-950 text-slate-200 relative overflow-x-hidden">
+          <style>{`
+            html { scroll-behavior: smooth; }
+            @keyframes blob1 { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-50px) scale(1.1); } 66% { transform: translate(-20px,20px) scale(0.9); } }
+            @keyframes blob2 { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(-40px,30px) scale(1.05); } 66% { transform: translate(30px,-30px) scale(0.95); } }
+            .blob1 { animation: blob1 14s ease-in-out infinite; }
+            .blob2 { animation: blob2 16s ease-in-out infinite; }
+          `}</style>
+
+          <div className="fixed inset-0 overflow-hidden pointer-events-none">
+            <div className="blob1 absolute top-0 -left-32 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl"></div>
+            <div className="blob2 absolute top-1/2 -right-32 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+          </div>
+
+          <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-slate-950/70 border-b border-slate-800/50">
+            <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+              <button onClick={() => scrollTo('#home')} className="font-mono font-bold text-lg bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                SH
+              </button>
+              <div className="hidden md:flex items-center gap-8">
+                {navLinks.map((l, i) => (
+                  <button key={l.href} onClick={() => scrollTo(l.href)} className="text-sm text-slate-300 hover:text-purple-400 transition-colors font-mono">
+                    <span className="text-purple-400">{String(i + 1).padStart(2, '0')}.</span> {l.label}
+                  </button>
+                ))}
+              </div>
+              <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-slate-300 text-2xl">
+                <i className={menuOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'}></i>
+              </button>
+            </div>
+            {menuOpen && (
+              <div className="md:hidden flex flex-col gap-4 px-6 pb-6 bg-slate-950/95">
+                {navLinks.map((l, i) => (
+                  <button key={l.href} onClick={() => scrollTo(l.href)} className="text-left text-slate-300 hover:text-purple-400 transition-colors font-mono">
+                    <span className="text-purple-400">{String(i + 1).padStart(2, '0')}.</span> {l.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </nav>
+
+          <section id="home" className="relative z-10 min-h-screen flex flex-col justify-center px-6 pt-24 pb-12">
+            <div className="max-w-6xl mx-auto w-full">
+              <p className="text-purple-400 font-mono text-sm md:text-base mb-4">Hi, my name is</p>
+              <h1 className="text-5xl sm:text-6xl md:text-8xl font-extrabold leading-tight mb-4">
+                <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                  Sadra Hosseini
+                </span>
+              </h1>
+              <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-slate-500 mb-6">
+                I build full-stack software.
+              </h2>
+              <p className="text-slate-400 max-w-xl text-base md:text-lg leading-relaxed mb-10">
+                MSc Computer Science candidate at York University, building practical, AI-powered web apps and developer tools.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <button onClick={() => scrollTo('#projects')} className="px-6 py-3.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg flex items-center gap-2 hover:shadow-lg hover:shadow-purple-500/30 transition-all hover:-translate-y-0.5">
+                  View My Work <i className="fa-solid fa-arrow-right text-base"></i>
+                </button>
+                <a href="/resume.pdf" download className="px-6 py-3.5 border border-slate-700 text-slate-200 font-semibold rounded-lg flex items-center gap-2 hover:border-purple-500 hover:text-purple-400 transition-colors">
+                  Resume <i className="fa-solid fa-download text-base"></i>
+                </a>
+                <button onClick={() => scrollTo('#contact')} className="px-6 py-3.5 border border-slate-700 text-slate-200 font-semibold rounded-lg hover:border-purple-500 hover:text-purple-400 transition-colors">
+                  Contact
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section id="about" className="relative z-10 max-w-6xl mx-auto px-6 py-20 md:py-28">
+            <SectionHeading number="01" title="About Me" />
+            <div className="grid md:grid-cols-3 gap-10 mt-10">
+              <div className="md:col-span-2 space-y-4 text-slate-400 leading-relaxed">
+                <p>I'm a Computer Science graduate student at York University's Lassonde School of Engineering, building on a BSc (Honours) in Computer Science from Toronto Metropolitan University, where I graduated on the Dean's List.</p>
+                <p>I like building software that's actually useful. Recently that's meant a full-stack app that pairs mood tracking with AI-driven movie recommendations, a task manager with a relational backend, and a handful of smaller tools and games along the way.</p>
+                <p>Outside of code, I split my time between piano, guitar, and learning French — and I'm always looking for the next thing to build.</p>
+              </div>
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+                <h3 className="text-slate-100 font-semibold mb-2">Quick Facts</h3>
+                <div className="flex items-start gap-3 text-sm text-slate-400">
+                  <i className="fa-solid fa-location-dot text-purple-400 text-base mt-0.5"></i>
+                  <span>Toronto, Ontario, Canada</span>
+                </div>
+                <div className="flex items-start gap-3 text-sm text-slate-400">
+                  <i className="fa-solid fa-graduation-cap text-purple-400 text-base mt-0.5"></i>
+                  <span>MSc Computer Science, York University</span>
+                </div>
+                <div className="flex items-start gap-3 text-sm text-slate-400">
+                  <i className="fa-solid fa-graduation-cap text-purple-400 text-base mt-0.5"></i>
+                  <span>BSc (Hons) Computer Science, TMU — Dean's List</span>
+                </div>
+                <div className="flex items-start gap-3 text-sm text-slate-400">
+                  <i className="fa-solid fa-code text-purple-400 text-base mt-0.5"></i>
+                  <span>Focus: Full-stack development & AI integration</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="projects" className="relative z-10 max-w-6xl mx-auto px-6 py-20 md:py-28">
+            <SectionHeading number="02" title="Projects" />
+            <div className="grid gap-6 mt-10">
+              {projects.map((p) => (
+                <ProjectCard key={p.title} {...p} />
+              ))}
+            </div>
+          </section>
+
+          <section id="skills" className="relative z-10 max-w-6xl mx-auto px-6 py-20 md:py-28">
+            <SectionHeading number="03" title="Skills" />
+            <div className="grid sm:grid-cols-2 gap-6 mt-10">
+              {skillGroups.map((g) => (
+                <div key={g.title} className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                  <h3 className="text-slate-100 font-semibold mb-4 flex items-center gap-2">
+                    <i className="fa-solid fa-code text-purple-400 text-base"></i> {g.title}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {g.items.map((s) => (
+                      <span key={s} className="px-3 py-1.5 text-sm bg-slate-800 text-slate-300 rounded-full border border-slate-700">{s}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section id="experience" className="relative z-10 max-w-6xl mx-auto px-6 py-20 md:py-28">
+            <SectionHeading number="04" title="Experience & Education" />
+            <div className="grid md:grid-cols-2 gap-12 mt-10">
+              <div>
+                <h3 className="text-slate-100 font-semibold mb-6 flex items-center gap-2">
+                  <i className="fa-solid fa-briefcase text-purple-400 text-xl"></i> Experience
+                </h3>
+                {experience.map((e) => (
+                  <TimelineItem key={e.role} {...e} />
+                ))}
+              </div>
+              <div>
+                <h3 className="text-slate-100 font-semibold mb-6 flex items-center gap-2">
+                  <i className="fa-solid fa-graduation-cap text-purple-400 text-xl"></i> Education
+                </h3>
+                {education.map((e) => (
+                  <TimelineItem key={e.role} {...e} />
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section id="contact" className="relative z-10 max-w-3xl mx-auto px-6 py-20 md:py-28 text-center">
+            <p className="text-purple-400 font-mono text-sm mb-3">05. What's Next?</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-100 mb-6">Get In Touch</h2>
+            <p className="text-slate-400 leading-relaxed mb-10 max-w-xl mx-auto">
+              I'm currently open to full-time software developer roles. Whether you have an opportunity, a question, or just want to chat — my inbox is open.
+            </p>
+            <a href="mailto:sadra.hosseini.dev@gmail.com" className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-purple-500/30 transition-all hover:-translate-y-0.5 mb-10">
+              <i className="fa-solid fa-envelope text-xl"></i> Say Hello
+            </a>
+            <div className="flex justify-center gap-6">
+              <a href="https://github.com/sadrahs" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-purple-400 transition-colors">
+                <i className="fa-brands fa-github text-2xl"></i>
+              </a>
+              <a href="https://linkedin.com/in/sadrahs" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-purple-400 transition-colors">
+                <i className="fa-brands fa-linkedin text-2xl"></i>
+              </a>
+            </div>
+          </section>
+
+          <footer className="relative z-10 text-center py-8 text-slate-500 text-sm border-t border-slate-800">
+            © 2026 Sadra Hosseini — Built with React & Tailwind CSS
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<Portfolio />);
+  </script>
+</body>
+</html>
