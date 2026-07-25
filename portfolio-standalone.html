@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sadra Hosseini — Portfolio</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="vendor/tailwind.js"></script>
+  <script src="vendor/react.production.min.js"></script>
+  <script src="vendor/react-dom.production.min.js"></script>
+  <script src="vendor/babel.min.js"></script>
 </head>
 <body>
   <div id="root"></div>
 
-  <script type="text/babel" data-presets="react">
+  <script type="text/babel-jsx" id="portfolio-source">
     const { useState } = React;
 
     const navLinks = [
@@ -324,6 +324,17 @@
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<Portfolio />);
+  </script>
+
+  <script>
+    const source = document.getElementById('portfolio-source').textContent;
+    const { code } = Babel.transform(source, {
+      presets: [['react', { runtime: 'classic' }]],
+      filename: 'portfolio.jsx',
+    });
+    const compiled = document.createElement('script');
+    compiled.textContent = code;
+    document.body.appendChild(compiled);
   </script>
 </body>
 </html>
