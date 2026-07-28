@@ -2,7 +2,7 @@
 **
 Personal portfolio site showcasing projects, skills, and experience.
 
-🔗 Live: https://eclectic-narwhal-60c0a0.netlify.app/
+🔗 Live: https://sadrahs.github.io/SadraHosseiniPortfolio/
 
 **Tech Stack
 **
@@ -32,7 +32,7 @@ bashnpx serve .
 
 **Deployment
 **
-Static single-page site — works on GitHub Pages, Netlify, Vercel, or any static host. Currently deployed on Netlify.
+Static single-page site — works on GitHub Pages, Netlify, Vercel, or any static host. Currently deployed on GitHub Pages, auto-updating on every push to main.
 
 **Contact
 **
